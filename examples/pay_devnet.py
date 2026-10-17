@@ -45,15 +45,22 @@ def main():
     bh = Hash.from_string(rpc("getLatestBlockhash", [])["result"]["value"]["blockhash"])
     tx = Transaction([kp], Message(ixs, kp.pubkey()), bh)
     sig = rpc("sendTransaction", [base64.b64encode(bytes(tx)).decode(), {"encoding": "base64"}])
-    print("send", sig); sig = sig["result"]
+    if "result" not in sig:
+        sys.exit(f"send failed: {sig.get('error', {}).get('message')} "
+                 "(note: a fresh devnet payTo account needs >= rent-exempt minimum, ~0.00089 SOL, before small payments)")
+    sig = sig["result"]; print("paid, signature", sig)
     for _ in range(30):
         time.sleep(2)
         st = rpc("getSignatureStatuses", [[sig]])["result"]["value"][0]
         if st and st.get("confirmationStatus") in ("confirmed", "finalized"): break
     hdr = base64.b64encode(json.dumps({"signature": sig, "nonce": nonce}).encode()).decode()
     r = urllib.request.urlopen(urllib.request.Request(API, headers={"X-PAYMENT": hdr}))
-    print("200", r.read().decode())
+    print(r.status, r.read().decode())
     print(f"https://explorer.solana.com/tx/{sig}?cluster=devnet")
+    try:  # replay the same payment: must be rejected
+        urllib.request.urlopen(urllib.request.Request(API, headers={"X-PAYMENT": hdr})); print("replay ACCEPTED (bug)")
+    except urllib.error.HTTPError as e:
+        print("replay ->", e.code, json.loads(e.read())["error"])
 
 if __name__ == "__main__":
     main()

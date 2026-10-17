@@ -20,6 +20,18 @@ python3 -m unittest discover -s tests -t .   # offline tests with mocked RPC
 ```
 Pay on devnet e.g. `solana transfer <PAY_TO> 0.0001 --with-memo <nonce> --url devnet`.
 
+## Live devnet demo
+```bash
+pip install solders
+python3 -m paywall.server &        # terminal 1
+python3 examples/pay_devnet.py     # 402 -> devnet transfer + memo -> X-PAYMENT retry -> 200, then replay -> 402
+```
+Verified on devnet 2026-10-17:
+- [4MA5AksNHJy33wDS…](https://explorer.solana.com/tx/4MA5AksNHJy33wDSYGhwv7qHchVWSL1mvTnuQSQpUsBNYktP2hDZB88Q9u5x8YVnfujUANSEEfmm95i2F7Bvhter?cluster=devnet)
+- [xuFer13etHE26ysT…](https://explorer.solana.com/tx/xuFer13etHE26ysT6fTXVBXSkPcKexUySv773hgybwaPr2mVkB8F3ekWquSWktnLDid3RjprdaksWNd6wejBmoQ?cluster=devnet)
+
+Details in [DEPLOYMENTS.md](DEPLOYMENTS.md). Demo video: [demo-v1 release](https://github.com/ifeohsun/solana-x402-paywall/releases/tag/demo-v1).
+
 ## How Solana powers it
 Sub-second finality and sub-cent fees make per-request micropayments viable; settlement is
 verified directly from Solana RPC, no payment processor or subscription.
