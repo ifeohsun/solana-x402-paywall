@@ -26,9 +26,10 @@ pip install solders
 python3 -m paywall.server &        # terminal 1
 python3 examples/pay_devnet.py     # 402 -> devnet transfer + memo -> X-PAYMENT retry -> 200, then replay -> 402
 ```
-Verified on devnet 2026-10-17:
+Verified on devnet 2026-10-17 and re-run 2026-10-19 (balance ~4.998 SOL; faucet airdrop still Internal error / rate-limited):
 - [4MA5AksNHJy33wDS…](https://explorer.solana.com/tx/4MA5AksNHJy33wDSYGhwv7qHchVWSL1mvTnuQSQpUsBNYktP2hDZB88Q9u5x8YVnfujUANSEEfmm95i2F7Bvhter?cluster=devnet)
 - [xuFer13etHE26ysT…](https://explorer.solana.com/tx/xuFer13etHE26ysT6fTXVBXSkPcKexUySv773hgybwaPr2mVkB8F3ekWquSWktnLDid3RjprdaksWNd6wejBmoQ?cluster=devnet)
+- [58HkqR6nhbb1CkYF…](https://explorer.solana.com/tx/58HkqR6nhbb1CkYFWv2dEqbcHPwCqPqGQAizaUu7shusGQKwy2yQBAH7vcnKSLsrFyugD3NN2Mtuk3msuAX4CLsd?cluster=devnet)
 
 Details in [DEPLOYMENTS.md](DEPLOYMENTS.md). Demo video: [demo-v1 release](https://github.com/ifeohsun/solana-x402-paywall/releases/tag/demo-v1).
 
